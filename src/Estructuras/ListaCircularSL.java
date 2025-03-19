@@ -8,7 +8,7 @@ package Estructuras;
  *
  * @author HP
  */
-public class ListaCircuarSL
+public class ListaCircularSL
 {
 
     private Nodo r;
@@ -71,7 +71,7 @@ public class ListaCircuarSL
     public Nodo elimina(String etiqueta)
     {
         Nodo n = null;
-        if (etiqueta==null)
+        if (etiqueta == null)
         {
             System.out.println("inserte una etiqueta valida");
             return n;
@@ -95,22 +95,22 @@ public class ListaCircuarSL
                     Nodo aux = r.getSiguiente();
                     while (aux != r)
                     {
-                        if (etiqueta.compareTo(aux.getSiguiente().getEtiqueta()) >=0)
+                        if (etiqueta.compareTo(aux.getSiguiente().getEtiqueta()) >= 0)
                         {
                             if (etiqueta.compareTo(aux.getSiguiente().getEtiqueta()) == 0)
                             {
                                 n = aux.getSiguiente();
                                 aux.setSiguiente(n.getSiguiente());
-                                if (n==r)
+                                if (n == r)
                                 {
-                                    r=aux;
+                                    r = aux;
                                 }
                                 n.setSiguiente(null);
                                 break;
-                               
+
                             } else
                             {
-                                aux=aux.getSiguiente();
+                                aux = aux.getSiguiente();
                             }
 
                         } else
@@ -118,7 +118,7 @@ public class ListaCircuarSL
                             break;
                         }
                     }
-                    if (n==null)
+                    if (n == null)
                     {
                         System.out.println("no encontrado D:");
                     }
@@ -165,9 +165,30 @@ public class ListaCircuarSL
         }
     }
 
+    public Nodo buscarNodoPorEtiqueta(String etiqueta)
+    {
+        Nodo aux = r;
+        if (r != null)
+        {
+            if (r.getEtiqueta().compareTo(etiqueta) >= 0 && r.getSiguiente().getEtiqueta().compareTo(etiqueta) <= 0)
+            {
+                do
+                {
+                    if (aux.getEtiqueta().equals(etiqueta))
+                    {
+                        return aux;
+                    }
+                    aux = aux.getSiguiente();
+                } while (aux != r);
+            }
+        }
+        System.out.println("No se encontro el nodo...");
+        return null;
+    }
+
     public static void main(String[] args)
     {
-        ListaCircuarSL lista = new ListaCircuarSL();
+        ListaCircularSL lista = new ListaCircularSL();
         Nodo<String> n1 = new Nodo<>("A", "A");
         Nodo<String> n2 = new Nodo<>("B", "B");
         Nodo<String> n3 = new Nodo<>("C", "C");
@@ -178,11 +199,8 @@ public class ListaCircuarSL
         lista.inserta(n4);
         lista.inserta(n3);
         System.out.println(lista.desp());
-     
-        lista.elimina(null);
-        System.out.println(lista.elimina("A").getEtiqueta());
-        System.out.println(lista.desp());
-       
+        System.out.println(lista.buscarNodoPorEtiqueta("D"));
 
+      
     }
 }

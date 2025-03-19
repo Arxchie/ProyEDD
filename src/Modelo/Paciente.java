@@ -11,33 +11,33 @@ package Modelo;
  */
 public class Paciente
 {
-    private int noPaciente;
-    private String nomPaciente;
+    private int numeroPaciente;
+    private String nombrePaciente;
     private int prioridad;
     private int zona;
 
     public Paciente(int noPaciente, String nomPaciente, int prioridad, int zona)
     {
-        this.noPaciente = noPaciente;
-        this.nomPaciente = nomPaciente;
+        this.numeroPaciente = noPaciente;
+        this.nombrePaciente = nomPaciente;
         this.prioridad = prioridad;
         this.zona = zona;
     }
 
     /**
-     * @return the noPaciente
+     * @return the numeroPaciente
      */
-    public int getNoPaciente()
+    public int getNumeroPaciente()
     {
-        return noPaciente;
+        return numeroPaciente;
     }
 
     /**
-     * @return the nomPaciente
+     * @return the nombrePaciente
      */
-    public String getNomPaciente()
+    public String getNombrePaciente()
     {
-        return nomPaciente;
+        return nombrePaciente;
     }
 
     /**
@@ -57,19 +57,19 @@ public class Paciente
     }
 
     /**
-     * @param noPaciente the noPaciente to set
+     * @param numeroPaciente the numeroPaciente to set
      */
-    public void setNoPaciente(int noPaciente)
+    public void setNumeroPaciente(int numeroPaciente)
     {
-        this.noPaciente = noPaciente;
+        this.numeroPaciente = numeroPaciente;
     }
 
     /**
-     * @param nomPaciente the nomPaciente to set
+     * @param nombrePaciente the nombrePaciente to set
      */
-    public void setNomPaciente(String nomPaciente)
+    public void setNombrePaciente(String nombrePaciente)
     {
-        this.nomPaciente = nomPaciente;
+        this.nombrePaciente = nombrePaciente;
     }
 
     /**
