@@ -40,6 +40,14 @@ public class Clinica
         clinica.recepcionPaciente(paciente2);
         clinica.recepcionPaciente(paciente2);
         clinica.recepcionPaciente(paciente2);
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
+        System.out.println(clinica.getPrioridades());
+        System.out.println(clinica.getPrioridades().getR());
         Muestra.muestraPacientesPorProridad(clinica.getPrioridades());
 
     }
@@ -47,7 +55,8 @@ public class Clinica
     public Paciente atenderPaciente()
     {
         Nodo siguietePrioridad = obtenerSiguientePrioridadAAtender();
-        ColaDinamica colaPacientes = obtenerColaPacientes(siguietePrioridad);
+        ColaDinamica colaPacientes = obtenerColaPacientesDePrioridad(siguietePrioridad);
+        Paciente pacienteAAtender=obtenerSiguientePacienteDeCola(colaPacientes);
         if (colaPacientes != null && siguietePrioridad != null)
         {
             if (colaPacientes.getAtras() == null)
@@ -55,20 +64,20 @@ public class Clinica
                 prioridades.elimina(siguietePrioridad.getEtiqueta());
             }
         }
-        return obtenerSiguientePaciente(siguietePrioridad);
+        return pacienteAAtender;
     }
 
     public Nodo obtenerSiguientePrioridadAAtender()
     {
         if (prioridades != null && prioridades.getR() != null)
         {
-            return prioridades.getR();
+            return prioridades.getR().getSiguiente();
         }
         return null;
 
     }
 
-    public ColaDinamica obtenerColaPacientes(Nodo<ColaDinamica> prioridad)
+    public ColaDinamica obtenerColaPacientesDePrioridad(Nodo<ColaDinamica> prioridad)
     {
         if (prioridad != null)
         {
@@ -77,12 +86,9 @@ public class Clinica
         return null;
     }
 
-    public Paciente obtenerSiguientePaciente(Nodo<ColaDinamica> prioridad)
+    public Paciente obtenerSiguientePacienteDeCola(ColaDinamica colaPacientes)
     {
-        if (prioridad != null)
-        {
-            ColaDinamica colaPacientes = obtenerColaPacientes(prioridad);
-            if (colaPacientes != null)
+        if (colaPacientes != null)
             {
                 Nodo<Paciente> nodoPaciente = colaPacientes.elimina();
                 if (nodoPaciente != null)
@@ -90,7 +96,7 @@ public class Clinica
                     return nodoPaciente.getObj();
                 }
             }
-        }
+       
         return null;
     }
 

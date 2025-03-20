@@ -19,6 +19,7 @@ public class Muestra
     {
         if (listaPacientes != null && listaPacientes.getR() != null)
         {
+            System.out.println("----------------PRIORIDADES---------------");
             Nodo<ColaDinamica> aux = listaPacientes.getR().getSiguiente();
             do
             {
