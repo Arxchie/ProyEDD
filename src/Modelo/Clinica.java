@@ -40,23 +40,27 @@ public class Clinica
         clinica.recepcionPaciente(paciente2);
         clinica.recepcionPaciente(paciente2);
         clinica.recepcionPaciente(paciente2);
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println("Paciente atendido: "+clinica.atenderPaciente().toString());
-        System.out.println(clinica.getPrioridades());
-        System.out.println(clinica.getPrioridades().getR());
-        Muestra.muestraPacientesPorProridad(clinica.getPrioridades());
+        clinica.moverPacientes("1");
+        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
 
+    }
+
+    public Nodo moverPacientes(String prioridad)
+    {
+        if (prioridades!=null&&prioridades.getR()!=null)
+        {
+            return prioridades.elimina(prioridad);
+        }
+        System.out.println("No se pudo eliminar la prioridad dado que no existe");
+        return null;
+        
     }
 
     public Paciente atenderPaciente()
     {
         Nodo siguietePrioridad = obtenerSiguientePrioridadAAtender();
         ColaDinamica colaPacientes = obtenerColaPacientesDePrioridad(siguietePrioridad);
-        Paciente pacienteAAtender=obtenerSiguientePacienteDeCola(colaPacientes);
+        Paciente pacienteAAtender = obtenerSiguientePacienteDeCola(colaPacientes);
         if (colaPacientes != null && siguietePrioridad != null)
         {
             if (colaPacientes.getAtras() == null)
@@ -89,14 +93,14 @@ public class Clinica
     public Paciente obtenerSiguientePacienteDeCola(ColaDinamica colaPacientes)
     {
         if (colaPacientes != null)
+        {
+            Nodo<Paciente> nodoPaciente = colaPacientes.elimina();
+            if (nodoPaciente != null)
             {
-                Nodo<Paciente> nodoPaciente = colaPacientes.elimina();
-                if (nodoPaciente != null)
-                {
-                    return nodoPaciente.getObj();
-                }
+                return nodoPaciente.getObj();
             }
-       
+        }
+
         return null;
     }
 

@@ -15,7 +15,7 @@ import Estructuras.Nodo;
 public class Muestra
 {
 
-    public static void muestraPacientesPorProridad(ListaCircularSL listaPacientes)
+    public static void muestraPacientesDeCadaProridad(ListaCircularSL listaPacientes)
     {
         if (listaPacientes != null && listaPacientes.getR() != null)
         {
