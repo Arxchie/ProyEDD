@@ -44,6 +44,12 @@ public class ColaPrioridades<T>
     }
     public static Cola<Paciente> ordenaCola(Cola<Paciente> cola, Pila<Paciente> pila1, Pila<Paciente> pila2)
     {
+        if (cola==null||pila1==null||pila2==null)
+        {
+            System.out.println("Error algun parametro es null");
+            return null;
+        }
+  
         while (!cola.isVacia())
         {
             Paciente eliminadoCola = cola.elimina();

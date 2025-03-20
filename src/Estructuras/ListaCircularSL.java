@@ -167,6 +167,10 @@ public class ListaCircularSL
 
     public Nodo buscarNodoPorEtiqueta(String etiqueta)
     {
+        if (etiqueta==null)
+        {
+            return null;
+        }
         Nodo aux = r;
         if (r != null)
         {

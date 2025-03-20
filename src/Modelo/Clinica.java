@@ -47,30 +47,37 @@ public class Clinica
         clinica.recepcionPaciente(paciente6);
         Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
         clinica.ordenarPorZonaDePrioridad("1");
-        clinica.atenderPaciente();
-        clinica.atenderPaciente();
-        clinica.atenderPaciente();
-        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
         clinica.ordenarPorZonaDePrioridad("2");
         Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
-
+   
     }
 
     public void ordenarPorZonaDePrioridad(String prioridad)
     {
+        if (prioridad == null)
+        {
+            System.out.println("la pioridad no puede ser null");
+            return;
+        }
         Nodo<ColaDinamica> nodoPrioridad = prioridades.buscarNodoPorEtiqueta(prioridad);
         if (nodoPrioridad != null)
         {
-            ColaDinamica colaDinamicaPacientes = nodoPrioridad.getObj();
-            Paciente[] arrPacientes = convertirColaAArreglo(colaDinamicaPacientes);
+            Paciente[] arrPacientes = convertirColaAArreglo(nodoPrioridad.getObj());
             if (arrPacientes != null)
             {
                 final int CANTIDAD_DE_PACIENTES = arrPacientes.length;
                 Cola<Paciente> colaOrdenada = ColaPrioridades.ordenaCola(new Cola(arrPacientes, CANTIDAD_DE_PACIENTES - 1),
                         new Pila(new Paciente[CANTIDAD_DE_PACIENTES]),
                         new Pila(new Paciente[CANTIDAD_DE_PACIENTES]));
-                ColaDinamica colaDinamicaPacientesOrdenada = convertirColaAColaDinamica(colaOrdenada);
-                nodoPrioridad.setObj(colaDinamicaPacientesOrdenada);
+                if (colaOrdenada != null)
+                {
+                    ColaDinamica colaDinamicaPacientesOrdenada = convertirColaAColaDinamica(colaOrdenada);
+                    if (colaDinamicaPacientesOrdenada != null)
+                    {
+                        nodoPrioridad.setObj(colaDinamicaPacientesOrdenada);
+                    }
+
+                }
             }
         }
 
@@ -79,6 +86,11 @@ public class Clinica
     public ColaDinamica convertirColaAColaDinamica(Cola<Paciente> colaEstatica)
     {
         ColaDinamica colaDinamica = new ColaDinamica();
+        if (colaEstatica == null)
+        {
+            System.out.println("error: se ha devuelto una cola dinamica vacia");
+            return colaDinamica;
+        }
         while (!colaEstatica.isVacia())
         {
             colaDinamica.inserta(crearNodoPaciente(colaEstatica.elimina()));
