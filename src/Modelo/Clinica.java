@@ -32,14 +32,66 @@ public class Clinica
     public static void main(String[] args)
     {
         Clinica clinica = new Clinica();
-        Paciente paciente = new Paciente(1234, "José", 2, 4);
+        Paciente paciente = new Paciente(1234, "José", 1, 4);
+        Paciente paciente2 = new Paciente(1234, "José", 2, 4);
         clinica.recepcionPaciente(paciente);
         clinica.recepcionPaciente(paciente);
         clinica.recepcionPaciente(paciente);
-        System.out.println(((ColaDinamica) clinica.getPrioridades().getR().getObj()).elimina().getEtiqueta());
-        System.out.println(((ColaDinamica) clinica.getPrioridades().getR().getObj()).elimina().getEtiqueta());
-        System.out.println(((ColaDinamica) clinica.getPrioridades().getR().getObj()).elimina().getEtiqueta());
-      
+        clinica.recepcionPaciente(paciente2);
+        clinica.recepcionPaciente(paciente2);
+        clinica.recepcionPaciente(paciente2);
+        Muestra.muestraPacientesPorProridad(clinica.getPrioridades());
+
+    }
+
+    public Paciente atenderPaciente()
+    {
+        Nodo siguietePrioridad = obtenerSiguientePrioridadAAtender();
+        ColaDinamica colaPacientes = obtenerColaPacientes(siguietePrioridad);
+        if (colaPacientes != null && siguietePrioridad != null)
+        {
+            if (colaPacientes.getAtras() == null)
+            {
+                prioridades.elimina(siguietePrioridad.getEtiqueta());
+            }
+        }
+        return obtenerSiguientePaciente(siguietePrioridad);
+    }
+
+    public Nodo obtenerSiguientePrioridadAAtender()
+    {
+        if (prioridades != null && prioridades.getR() != null)
+        {
+            return prioridades.getR();
+        }
+        return null;
+
+    }
+
+    public ColaDinamica obtenerColaPacientes(Nodo<ColaDinamica> prioridad)
+    {
+        if (prioridad != null)
+        {
+            return prioridad.getObj();
+        }
+        return null;
+    }
+
+    public Paciente obtenerSiguientePaciente(Nodo<ColaDinamica> prioridad)
+    {
+        if (prioridad != null)
+        {
+            ColaDinamica colaPacientes = obtenerColaPacientes(prioridad);
+            if (colaPacientes != null)
+            {
+                Nodo<Paciente> nodoPaciente = colaPacientes.elimina();
+                if (nodoPaciente != null)
+                {
+                    return nodoPaciente.getObj();
+                }
+            }
+        }
+        return null;
     }
 
     public void recepcionPaciente(Paciente paciente)

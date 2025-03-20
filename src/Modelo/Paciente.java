@@ -87,5 +87,11 @@ public class Paciente
     {
         this.zona = zona;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Paciente{" + "numeroPaciente=" + numeroPaciente + ", nombrePaciente=" + nombrePaciente + ", prioridad=" + prioridad + ", zona=" + zona + '}';
+    }
     
 }
