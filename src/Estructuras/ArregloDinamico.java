@@ -13,11 +13,11 @@ import Modelo.Paciente;
 public class ArregloDinamico
 {
 
-    private Paciente arr[];
+    private  Paciente arr[];
 
     public ArregloDinamico()
     {
-       
+
     }
 
     /**
@@ -36,18 +36,19 @@ public class ArregloDinamico
         this.arr = arr;
     }
 
-    public void nuevoP(Paciente paciente)
+    public void insertarPacienteAAarayDinamico(Paciente paciente)
     {
-        if (getArr() == null)
+        if (arr == null)
         {
-            setArr(new Paciente[1]);
-            getArr()[0] = paciente;
+            arr = new Paciente[1];
+            arr[0] = paciente;
         } else
         {
-            Paciente nvo[] = new Paciente[getArr().length + 1];
-            System.arraycopy(getArr(), 0, nvo, 0, getArr().length);
+            Paciente nvo[] = new Paciente[arr.length + 1];
+            System.arraycopy(arr, 0, nvo, 0, arr.length);
             nvo[nvo.length - 1] = paciente;
-            setArr(nvo);
+            arr = nvo;
         }
     }
+
 }
