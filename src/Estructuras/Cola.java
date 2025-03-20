@@ -18,6 +18,11 @@ public class Cola<T> implements Machote<T>
     {
         this.arr = arr;
     }
+    public Cola(T[] arr, int atras)
+    {
+        this.arr = arr;
+        this.atras = atras;
+    }
 
     /**
      * @return the atras

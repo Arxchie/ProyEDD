@@ -3,7 +3,8 @@ package Modelo;
 import Estructuras.*;
 
 /**
- * Clase que representa una clínica con manejo de pacientes por prioridad.
+ * Clase que representa una clínica con manejo de colaDinamicaPacientes por
+ * prioridad.
  */
 public class Clinica
 {
@@ -32,28 +33,83 @@ public class Clinica
     public static void main(String[] args)
     {
         Clinica clinica = new Clinica();
-        Paciente paciente = new Paciente(1234, "José", 1, 4);
-        Paciente paciente2 = new Paciente(1234, "José", 2, 4);
-        clinica.recepcionPaciente(paciente);
-        clinica.recepcionPaciente(paciente);
-        clinica.recepcionPaciente(paciente);
+        Paciente paciente1 = new Paciente(1234, "José", 1, 3);
+        Paciente paciente2 = new Paciente(1234, "Maria", 1, 1);
+        Paciente paciente3 = new Paciente(1234, "Lucas", 1, 2);
+        Paciente paciente4 = new Paciente(1234, "Pablo", 2, 4);
+        Paciente paciente5 = new Paciente(1234, "Marta", 2, 6);
+        Paciente paciente6 = new Paciente(1234, "Pablo", 2, 5);
+        clinica.recepcionPaciente(paciente1);
         clinica.recepcionPaciente(paciente2);
-        clinica.recepcionPaciente(paciente2);
-        clinica.recepcionPaciente(paciente2);
-        clinica.moverPacientes("1");
+        clinica.recepcionPaciente(paciente3);
+        clinica.recepcionPaciente(paciente4);
+        clinica.recepcionPaciente(paciente5);
+        clinica.recepcionPaciente(paciente6);
+        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+        clinica.ordenarPorZonaDePrioridad("1");
+        clinica.atenderPaciente();
+        clinica.atenderPaciente();
+        clinica.atenderPaciente();
+        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+        clinica.ordenarPorZonaDePrioridad("2");
         Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
 
     }
 
+    public void ordenarPorZonaDePrioridad(String prioridad)
+    {
+        Nodo<ColaDinamica> nodoPrioridad = prioridades.buscarNodoPorEtiqueta(prioridad);
+        if (nodoPrioridad != null)
+        {
+            ColaDinamica colaDinamicaPacientes = nodoPrioridad.getObj();
+            Paciente[] arrPacientes = convertirColaAArreglo(colaDinamicaPacientes);
+            if (arrPacientes != null)
+            {
+                final int CANTIDAD_DE_PACIENTES = arrPacientes.length;
+                Cola<Paciente> colaOrdenada = ColaPrioridades.ordenaCola(new Cola(arrPacientes, CANTIDAD_DE_PACIENTES - 1),
+                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]),
+                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]));
+                ColaDinamica colaDinamicaPacientesOrdenada = convertirColaAColaDinamica(colaOrdenada);
+                nodoPrioridad.setObj(colaDinamicaPacientesOrdenada);
+            }
+        }
+
+    }
+
+    public ColaDinamica convertirColaAColaDinamica(Cola<Paciente> colaEstatica)
+    {
+        ColaDinamica colaDinamica = new ColaDinamica();
+        while (!colaEstatica.isVacia())
+        {
+            colaDinamica.inserta(crearNodoPaciente(colaEstatica.elimina()));
+        }
+        return colaDinamica;
+    }
+
+    public Paciente[] convertirColaAArreglo(ColaDinamica cola)
+    {
+        if (cola == null)
+        {
+            System.out.println("la cola no existe");
+            return null;
+        }
+        ArregloDinamico arregloDinamico = new ArregloDinamico();
+        while (cola.getAtras() != null)
+        {
+            arregloDinamico.insertarPacienteAAarayDinamico((Paciente) cola.elimina().getObj());
+        }
+        return arregloDinamico.getArr();
+    }
+
     public Nodo moverPacientes(String prioridad)
     {
-        if (prioridades!=null&&prioridades.getR()!=null)
+        if (prioridades != null && prioridades.getR() != null)
         {
             return prioridades.elimina(prioridad);
         }
         System.out.println("No se pudo eliminar la prioridad dado que no existe");
         return null;
-        
+
     }
 
     public Paciente atenderPaciente()

@@ -42,7 +42,7 @@ public class ColaPrioridades<T>
      
        
     }
-    public static void ordenaCola(Cola<Paciente> cola, Pila<Paciente> pila1, Pila<Paciente> pila2)
+    public static Cola<Paciente> ordenaCola(Cola<Paciente> cola, Pila<Paciente> pila1, Pila<Paciente> pila2)
     {
         while (!cola.isVacia())
         {
@@ -76,6 +76,7 @@ public class ColaPrioridades<T>
         {
             cola.inserta(pila1.elimina());
         }
+        return cola;
 
     }
 }
