@@ -1,14 +1,14 @@
 package Modelo;
 
+import Archivos.ManipulacionArchivos;
 import Estructuras.*;
 import java.io.Serializable;
-import poo.ManipulacionArchivos;
 
 /**
  * Clase que representa una clínica con manejo de colaDinamicaPacientes por
  * prioridad.
  */
-public class Clinica implements Serializable
+public class Clinica
 {
 
     private ListaCircularSL prioridades;
@@ -31,22 +31,23 @@ public class Clinica implements Serializable
         return prioridades;
     }
 
+    public void setPrioridades(ListaCircularSL prioridades)
+    {
+        this.prioridades = prioridades;
+    }
+
     public static void main(String[] args)
     {
         Clinica clinica = new Clinica();
-        clinica = (Clinica) ManipulacionArchivos.carga(null, "Datos.dat");
+       
+        clinica.setPrioridades((ListaCircularSL) ManipulacionArchivos.carga(null, "Datos.dat"));
+        if (clinica.getPrioridades() == null)
+        {
+            clinica.setPrioridades(new ListaCircularSL());
+        }
         Paciente paciente1 = new Paciente(1234, "José", 1, 3);
-        Paciente paciente2 = new Paciente(1234, "Maria", 1, 1);
-        Paciente paciente3 = new Paciente(1234, "Lucas", 1, 4);
-        Paciente paciente4 = new Paciente(1234, "Pablo", 1, 4);
-        Paciente paciente5 = new Paciente(1234, "Marta", 2, 6);
-        Paciente paciente6 = new Paciente(1234, "Pablo", 2, 6);
         clinica.recepcionPaciente(paciente1);
-        clinica.recepcionPaciente(paciente2);
-        clinica.recepcionPaciente(paciente3);
-        clinica.recepcionPaciente(paciente4);
-        clinica.recepcionPaciente(paciente5);
-        clinica.recepcionPaciente(paciente6);
+
 //        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
 //
 //        Nodo prioridadBeneficiada2 = clinica.getPrioridades().buscarNodoPorEtiqueta("2");
@@ -57,8 +58,8 @@ public class Clinica implements Serializable
 //            clinica.eliminarPrioridadSiNoTienePacientes(prioridadBeneficiada2);
 //
 //        }
-//        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
-        ManipulacionArchivos.guarda(null, clinica, "Datos.dat");
+        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+        ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
 
     }
 
@@ -252,6 +253,11 @@ public class Clinica implements Serializable
 
     public void recepcionPaciente(Paciente paciente)
     {
+        if (prioridades == null)
+        {
+            System.out.println("Error: Prioridades es null");
+            return;
+        }
         if (paciente == null)
         {
             System.out.println("Error: Paciente inválido.");
@@ -272,6 +278,11 @@ public class Clinica implements Serializable
 
     public Nodo obtenerOCrearPrioridad(String prioridad)
     {
+        if (prioridades == null)
+        {
+            System.out.println("Error: Prioridades es null");
+            return null;
+        }
         Nodo nodoPrioridad = prioridades.buscarNodoPorEtiqueta(prioridad);
         final boolean LA_PRIORIDAD_EXISTE = nodoPrioridad != null;
         if (LA_PRIORIDAD_EXISTE)
@@ -313,6 +324,11 @@ public class Clinica implements Serializable
 
     public void agregarPrioridad(Nodo nuevaPrioridad)
     {
+        if (prioridades == null)
+        {
+            System.out.println("Error: Prioridades es null");
+            return;
+        }
         if (nuevaPrioridad != null)
         {
             prioridades.inserta(nuevaPrioridad);

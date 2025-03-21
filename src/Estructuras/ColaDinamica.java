@@ -4,11 +4,13 @@
  */
 package Estructuras;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class ColaDinamica
+public class ColaDinamica implements Serializable
 {
     private Nodo frente;
     private Nodo atras;
