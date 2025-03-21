@@ -4,11 +4,13 @@
  */
 package Estructuras;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class ListaCircularSL
+public class ListaCircularSL implements Serializable
 {
 
     private Nodo r;

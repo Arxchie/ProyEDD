@@ -4,11 +4,13 @@
  */
 package Estructuras;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class Nodo<T>
+public class Nodo<T> implements Serializable
 {
     private T obj;
     private String etiqueta;
