@@ -12,10 +12,11 @@ import Estructuras.Nodo;
  *
  * @author HP
  */
-public class Muestra
+public class Muestra implements VistaPacientes
 {
 
-    public static void muestraPacientesDeCadaProridad(ListaCircularSL listaPacientes)
+    @Override
+    public  void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL listaPacientes)
     {
         if (listaPacientes != null && listaPacientes.getR() != null)
         {
@@ -24,7 +25,7 @@ public class Muestra
             do
             {
                 System.out.println("Prioridad: " + aux.getEtiqueta());
-                muestraPacientes(aux.getObj());
+                muestraPacientesDeCola(aux.getObj());
                 aux = aux.getSiguiente();
 
             } while (aux != listaPacientes.getR().getSiguiente());
@@ -32,7 +33,7 @@ public class Muestra
 
     }
 
-    public static void muestraPacientes(ColaDinamica colaPacientes)
+    public void muestraPacientesDeCola(ColaDinamica colaPacientes)
     {
         if (colaPacientes != null)
         {

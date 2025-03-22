@@ -58,7 +58,7 @@ public class Clinica
 //            clinica.eliminarPrioridadSiNoTienePacientes(prioridadBeneficiada2);
 //
 //        }
-        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+      //  Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
         ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
 
     }

@@ -7,19 +7,24 @@ package Vista;
 import Estructuras.ColaDinamica;
 import Estructuras.ListaCircularSL;
 import Estructuras.Nodo;
-import Modelo.Clinica;
 import Modelo.Paciente;
+import Modelo.VistaPacientes;
+import ValidacionesExtra.ValidacionesExtra;
 import cjb.ci.CtrlInterfaz;
 import cjb.ci.Mensajes;
-import java.awt.Color;
+import cjb.ci.Validaciones;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author HP
  */
-public class VentanaPrincipal extends javax.swing.JFrame
+public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacientes
 {
 
     /**
@@ -28,25 +33,98 @@ public class VentanaPrincipal extends javax.swing.JFrame
     public VentanaPrincipal()
     {
         initComponents();
+        CtrlInterfaz.cambia(jtfNumeroPaciente);
         jtbTablaPacientes.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
-        Clinica clinica=new Clinica();
-        for (int i = 0; i < 10; i++)
-        {
-            clinica.recepcionPaciente(new Paciente(123, "Juan", 2, 6));
-            
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            clinica.recepcionPaciente(new Paciente(123, "Maria", 1, 1));
-            
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            clinica.recepcionPaciente(new Paciente(0000, "Pedro", 1, 8));
-            
-        }
+    }
 
-        mostrarTodosLosPacientes(clinica.getPrioridades());
+    public JButton getBtnAtenderPaciente()
+    {
+        return btnAtenderPaciente;
+    }
+
+    public void setBtnAtenderPaciente(JButton btnAtenderPaciente)
+    {
+        this.btnAtenderPaciente = btnAtenderPaciente;
+    }
+
+    public JButton getBtnExcepcionPacientes()
+    {
+        return btnExcepcionPacientes;
+    }
+
+    public void setBtnExcepcionPacientes(JButton btnExcepcionPacientes)
+    {
+        this.btnExcepcionPacientes = btnExcepcionPacientes;
+    }
+
+    public JButton getBtnMoverPaciente()
+    {
+        return btnMoverPaciente;
+    }
+
+    public void setBtnMoverPaciente(JButton btnMoverPaciente)
+    {
+        this.btnMoverPaciente = btnMoverPaciente;
+    }
+
+    public JButton getBtnOrdenarPorZona()
+    {
+        return btnOrdenarPorZona;
+    }
+
+    public void setBtnOrdenarPorZona(JButton btnOrdenarPorZona)
+    {
+        this.btnOrdenarPorZona = btnOrdenarPorZona;
+    }
+
+    public JButton getBtnRegistrarPaciente()
+    {
+        return btnRegistrarPaciente;
+    }
+
+    public void setBtnRegistrarPaciente(JButton btnRegistrarPaciente)
+    {
+        this.btnRegistrarPaciente = btnRegistrarPaciente;
+    }
+
+    public JComboBox<String> getJcbPrioridadPaciente()
+    {
+        return jcbPrioridadPaciente;
+    }
+
+    public void setJcbPrioridadPaciente(JComboBox<String> jcbPrioridadPaciente)
+    {
+        this.jcbPrioridadPaciente = jcbPrioridadPaciente;
+    }
+
+    public JComboBox<String> getJcbZonaPaciente()
+    {
+        return jcbZonaPaciente;
+    }
+
+    public void setJcbZonaPaciente(JComboBox<String> jcbZonaPaciente)
+    {
+        this.jcbZonaPaciente = jcbZonaPaciente;
+    }
+
+    public JTextField getJtfNombrePaciente()
+    {
+        return jtfNombrePaciente;
+    }
+
+    public void setJtfNombrePaciente(JTextField jtfNombrePaciente)
+    {
+        this.jtfNombrePaciente = jtfNombrePaciente;
+    }
+
+    public JTextField getJtfNumeroPaciente()
+    {
+        return jtfNumeroPaciente;
+    }
+
+    public void setJtfNumeroPaciente(JTextField jtfNumeroPaciente)
+    {
+        this.jtfNumeroPaciente = jtfNumeroPaciente;
     }
 
     /**
@@ -66,11 +144,11 @@ public class VentanaPrincipal extends javax.swing.JFrame
         jLabel2 = new javax.swing.JLabel();
         jtfNumeroPaciente = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jtfZonaPaciente = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jtfPrioridadPaciente = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnRegistrarPaciente = new javax.swing.JButton();
+        jcbZonaPaciente = new javax.swing.JComboBox<>();
+        jcbPrioridadPaciente = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         btnAtenderPaciente = new javax.swing.JButton();
         btnMoverPaciente = new javax.swing.JButton();
@@ -83,7 +161,28 @@ public class VentanaPrincipal extends javax.swing.JFrame
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jtpRegistrarPaciente.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                jtpRegistrarPacienteFocusGained(evt);
+            }
+        });
+
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jtfNombrePaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtfNombrePaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jtfNombrePacienteKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                jtfNombrePacienteKeyTyped(evt);
+            }
+        });
         jPanel1.add(jtfNombrePaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 251, 204, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -93,40 +192,72 @@ public class VentanaPrincipal extends javax.swing.JFrame
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Numero");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 90, -1, -1));
-        jPanel1.add(jtfNumeroPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 121, 204, -1));
+
+        jtfNumeroPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtfNumeroPaciente.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jtfNumeroPacienteActionPerformed(evt);
+            }
+        });
+        jtfNumeroPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jtfNumeroPacienteKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                jtfNumeroPacienteKeyTyped(evt);
+            }
+        });
+        jPanel1.add(jtfNumeroPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 204, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Zona");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 285, -1, -1));
 
-        jtfZonaPaciente.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jtfZonaPacienteActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jtfZonaPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 322, 204, -1));
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setText("Prioridad");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 155, -1, -1));
-
-        jtfPrioridadPaciente.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jtfPrioridadPacienteActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jtfPrioridadPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 186, 204, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel5.setText("DATOS DEL PACIENTE");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, -1));
 
-        jButton1.setText("Registrar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(295, 395, -1, -1));
+        btnRegistrarPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRegistrarPaciente.setText("Registrar");
+        btnRegistrarPaciente.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnRegistrarPacienteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRegistrarPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
+
+        jcbZonaPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcbZonaPaciente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jcbZonaPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jcbZonaPacienteKeyPressed(evt);
+            }
+        });
+        jPanel1.add(jcbZonaPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, -1, -1));
+
+        jcbPrioridadPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcbPrioridadPaciente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jcbPrioridadPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                jcbPrioridadPacienteKeyPressed(evt);
+            }
+        });
+        jPanel1.add(jcbPrioridadPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, -1, -1));
 
         jtpRegistrarPaciente.addTab("Recepcion Pacientes", jPanel1);
 
@@ -142,10 +273,24 @@ public class VentanaPrincipal extends javax.swing.JFrame
                 btnAtenderPacienteActionPerformed(evt);
             }
         });
+        btnAtenderPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnAtenderPacienteKeyPressed(evt);
+            }
+        });
         jPanel2.add(btnAtenderPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 152, -1));
 
         btnMoverPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMoverPaciente.setText("Mover Pacientes");
+        btnMoverPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnMoverPacienteKeyPressed(evt);
+            }
+        });
         jPanel2.add(btnMoverPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 152, -1));
 
         btnOrdenarPorZona.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -157,6 +302,13 @@ public class VentanaPrincipal extends javax.swing.JFrame
                 btnOrdenarPorZonaActionPerformed(evt);
             }
         });
+        btnOrdenarPorZona.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnOrdenarPorZonaKeyPressed(evt);
+            }
+        });
         jPanel2.add(btnOrdenarPorZona, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 30, 152, -1));
 
         btnExcepcionPacientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -166,6 +318,13 @@ public class VentanaPrincipal extends javax.swing.JFrame
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 btnExcepcionPacientesActionPerformed(evt);
+            }
+        });
+        btnExcepcionPacientes.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnExcepcionPacientesKeyPressed(evt);
             }
         });
         jPanel2.add(btnExcepcionPacientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(368, 30, 152, -1));
@@ -221,21 +380,112 @@ public class VentanaPrincipal extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAtenderPacienteActionPerformed
 
-    private void jtfPrioridadPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jtfPrioridadPacienteActionPerformed
-    {//GEN-HEADEREND:event_jtfPrioridadPacienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfPrioridadPacienteActionPerformed
-
-    private void jtfZonaPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jtfZonaPacienteActionPerformed
-    {//GEN-HEADEREND:event_jtfZonaPacienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfZonaPacienteActionPerformed
-
     private void btnExcepcionPacientesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnExcepcionPacientesActionPerformed
     {//GEN-HEADEREND:event_btnExcepcionPacientesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnExcepcionPacientesActionPerformed
-    public void mostrarTodosLosPacientes(ListaCircularSL pacientes)
+
+    private void jtfNumeroPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jtfNumeroPacienteKeyPressed
+    {//GEN-HEADEREND:event_jtfNumeroPacienteKeyPressed
+        // TODO add your handling code here:
+
+        ValidacionesExtra.validaCopyPaste(evt);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jcbPrioridadPaciente);
+
+
+    }//GEN-LAST:event_jtfNumeroPacienteKeyPressed
+
+    private void jtfNumeroPacienteKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jtfNumeroPacienteKeyTyped
+    {//GEN-HEADEREND:event_jtfNumeroPacienteKeyTyped
+        // TODO add your handling code here:
+        Validaciones.validaEntero(evt);
+        ValidacionesExtra.validaLongitud(evt, jtfNumeroPaciente.getText(), 5);
+
+
+    }//GEN-LAST:event_jtfNumeroPacienteKeyTyped
+
+    private void jtfNombrePacienteKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jtfNombrePacienteKeyTyped
+    {//GEN-HEADEREND:event_jtfNombrePacienteKeyTyped
+        // TODO add your handling code here:
+        Validaciones.validaAlfabeticos(evt);
+        ValidacionesExtra.validaLongitud(evt, jtfNombrePaciente.getText(), 50);
+    }//GEN-LAST:event_jtfNombrePacienteKeyTyped
+
+    private void jtfNumeroPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jtfNumeroPacienteActionPerformed
+    {//GEN-HEADEREND:event_jtfNumeroPacienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfNumeroPacienteActionPerformed
+
+    private void jtfNombrePacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jtfNombrePacienteKeyPressed
+    {//GEN-HEADEREND:event_jtfNombrePacienteKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.validaCopyPaste(evt);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jcbZonaPaciente);
+    }//GEN-LAST:event_jtfNombrePacienteKeyPressed
+
+    private void btnRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRegistrarPacienteActionPerformed
+    {//GEN-HEADEREND:event_btnRegistrarPacienteActionPerformed
+
+        if (jtfNombrePaciente.getText().trim().length() == 0 || jtfNumeroPaciente.getText().trim().length() == 0)
+        {
+            Mensajes.error(this, "Debe llenar todos los campos");
+            CtrlInterfaz.cambia(jtfNumeroPaciente);
+            return;
+        }
+        Mensajes.exito(this, "Registro exitoso");
+        CtrlInterfaz.limpia(jtfNombrePaciente, jtfNumeroPaciente);
+        jcbPrioridadPaciente.setSelectedIndex(0);
+        jcbZonaPaciente.setSelectedIndex(0);
+        CtrlInterfaz.cambia(jtfNumeroPaciente);
+    }//GEN-LAST:event_btnRegistrarPacienteActionPerformed
+
+    private void jcbPrioridadPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jcbPrioridadPacienteKeyPressed
+    {//GEN-HEADEREND:event_jcbPrioridadPacienteKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jtfNombrePaciente);
+    }//GEN-LAST:event_jcbPrioridadPacienteKeyPressed
+
+    private void jcbZonaPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jcbZonaPacienteKeyPressed
+    {//GEN-HEADEREND:event_jcbZonaPacienteKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, btnRegistrarPaciente);
+    }//GEN-LAST:event_jcbZonaPacienteKeyPressed
+
+    private void jtpRegistrarPacienteFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jtpRegistrarPacienteFocusGained
+    {//GEN-HEADEREND:event_jtpRegistrarPacienteFocusGained
+        // TODO add your handling code here:
+        CtrlInterfaz.cambia(btnAtenderPaciente);
+    }//GEN-LAST:event_jtpRegistrarPacienteFocusGained
+
+    private void btnAtenderPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnAtenderPacienteKeyPressed
+    {//GEN-HEADEREND:event_btnAtenderPacienteKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnMoverPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnOrdenarPorZona);
+    }//GEN-LAST:event_btnAtenderPacienteKeyPressed
+
+    private void btnMoverPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnMoverPacienteKeyPressed
+    {//GEN-HEADEREND:event_btnMoverPacienteKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnExcepcionPacientes);
+        ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnAtenderPaciente);
+    }//GEN-LAST:event_btnMoverPacienteKeyPressed
+
+    private void btnExcepcionPacientesKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnExcepcionPacientesKeyPressed
+    {//GEN-HEADEREND:event_btnExcepcionPacientesKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnOrdenarPorZona);
+        ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnMoverPaciente);
+    }//GEN-LAST:event_btnExcepcionPacientesKeyPressed
+
+    private void btnOrdenarPorZonaKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnOrdenarPorZonaKeyPressed
+    {//GEN-HEADEREND:event_btnOrdenarPorZonaKeyPressed
+        // TODO add your handling code here:
+        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt,btnAtenderPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnExcepcionPacientes);
+    }//GEN-LAST:event_btnOrdenarPorZonaKeyPressed
+    @Override
+    public void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL pacientes)
     {
         if (pacientes == null)
         {
@@ -345,7 +595,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private javax.swing.JButton btnExcepcionPacientes;
     private javax.swing.JButton btnMoverPaciente;
     private javax.swing.JButton btnOrdenarPorZona;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnRegistrarPaciente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -354,11 +604,11 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcbPrioridadPaciente;
+    private javax.swing.JComboBox<String> jcbZonaPaciente;
     private javax.swing.JTable jtbTablaPacientes;
     private javax.swing.JTextField jtfNombrePaciente;
     private javax.swing.JTextField jtfNumeroPaciente;
-    private javax.swing.JTextField jtfPrioridadPaciente;
-    private javax.swing.JTextField jtfZonaPaciente;
     private javax.swing.JTabbedPane jtpRegistrarPaciente;
     // End of variables declaration//GEN-END:variables
 }
