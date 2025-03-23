@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author HP
  */
-public class VentanaPrincipal extends javax.swing.JFrame 
+public class VentanaPrincipal extends javax.swing.JFrame
 {
 
     /**
@@ -264,6 +264,17 @@ public class VentanaPrincipal extends javax.swing.JFrame
                 btnRegistrarPacienteActionPerformed(evt);
             }
         });
+        btnRegistrarPaciente.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnRegistrarPacienteKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                btnRegistrarPacienteKeyTyped(evt);
+            }
+        });
         jPanel1.add(btnRegistrarPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
 
         jcbZonaPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -492,6 +503,10 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private void btnAtenderPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnAtenderPacienteKeyPressed
     {//GEN-HEADEREND:event_btnAtenderPacienteKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnAtenderPaciente.doClick(); // Simula un clic en el botón
+        }
         ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnMoverPaciente);
         ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnOrdenarPorZona);
     }//GEN-LAST:event_btnAtenderPacienteKeyPressed
@@ -499,6 +514,10 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private void btnMoverPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnMoverPacienteKeyPressed
     {//GEN-HEADEREND:event_btnMoverPacienteKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnMoverPaciente.doClick(); // Simula un clic en el botón
+        }
         ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnExcepcionPacientes);
         ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnAtenderPaciente);
     }//GEN-LAST:event_btnMoverPacienteKeyPressed
@@ -506,6 +525,10 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private void btnExcepcionPacientesKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnExcepcionPacientesKeyPressed
     {//GEN-HEADEREND:event_btnExcepcionPacientesKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnExcepcionPacientes.doClick(); // Simula un clic en el botón
+        }
         ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnOrdenarPorZona);
         ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnMoverPaciente);
     }//GEN-LAST:event_btnExcepcionPacientesKeyPressed
@@ -513,6 +536,10 @@ public class VentanaPrincipal extends javax.swing.JFrame
     private void btnOrdenarPorZonaKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnOrdenarPorZonaKeyPressed
     {//GEN-HEADEREND:event_btnOrdenarPorZonaKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnOrdenarPorZona.doClick(); // Simula un clic en el botón
+        }
         ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnAtenderPaciente);
         ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnExcepcionPacientes);
     }//GEN-LAST:event_btnOrdenarPorZonaKeyPressed
@@ -526,7 +553,22 @@ public class VentanaPrincipal extends javax.swing.JFrame
     {//GEN-HEADEREND:event_btnMoverPacienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMoverPacienteActionPerformed
-  
+
+    private void btnRegistrarPacienteKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnRegistrarPacienteKeyTyped
+    {//GEN-HEADEREND:event_btnRegistrarPacienteKeyTyped
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnRegistrarPacienteKeyTyped
+
+    private void btnRegistrarPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnRegistrarPacienteKeyPressed
+    {//GEN-HEADEREND:event_btnRegistrarPacienteKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnRegistrarPaciente.doClick(); // Simula un clic en el botón
+        }
+    }//GEN-LAST:event_btnRegistrarPacienteKeyPressed
+
     public void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL pacientes)
     {
         if (pacientes == null)

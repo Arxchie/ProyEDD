@@ -63,6 +63,13 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
                 btnAceptarPrioridadActionPerformed(evt);
             }
         });
+        btnAceptarPrioridad.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                btnAceptarPrioridadKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,13 +135,22 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
     private void jComboBoxKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxKeyPressed
     {//GEN-HEADEREND:event_jComboBoxKeyPressed
         // TODO add your handling code here:
-       ValidacionesExtra.ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, btnAceptarPrioridad);
+        ValidacionesExtra.ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, btnAceptarPrioridad);
     }//GEN-LAST:event_jComboBoxKeyPressed
 
     private void btnAceptarPrioridadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAceptarPrioridadActionPerformed
     {//GEN-HEADEREND:event_btnAceptarPrioridadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAceptarPrioridadActionPerformed
+
+    private void btnAceptarPrioridadKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnAceptarPrioridadKeyPressed
+    {//GEN-HEADEREND:event_btnAceptarPrioridadKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            btnAceptarPrioridad.doClick(); // Simula un clic en el botón
+        }
+    }//GEN-LAST:event_btnAceptarPrioridadKeyPressed
 
     /**
      * @param args the command line arguments
