@@ -12,11 +12,11 @@ import Estructuras.Nodo;
  *
  * @author HP
  */
-public class Muestra implements VistaPacientes
+public class Muestra 
 {
 
-    @Override
-    public  void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL listaPacientes)
+    
+    public  static void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL listaPacientes)
     {
         if (listaPacientes != null && listaPacientes.getR() != null)
         {
@@ -33,7 +33,7 @@ public class Muestra implements VistaPacientes
 
     }
 
-    public void muestraPacientesDeCola(ColaDinamica colaPacientes)
+    public static void muestraPacientesDeCola(ColaDinamica colaPacientes)
     {
         if (colaPacientes != null)
         {

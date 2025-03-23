@@ -5,6 +5,8 @@
 package Controlador;
 
 import Archivos.ManipulacionArchivos;
+import Estructuras.ColaDinamica;
+import Estructuras.Nodo;
 import Modelo.Clinica;
 import Modelo.Paciente;
 import Vista.*;
@@ -57,6 +59,7 @@ public class Controlador
         asignarMoverPacientes();
         ordenarPorZona();
         mostrarTodosLosPacientes();
+        excepcionPacientes();
     }
 
     public void recepcionPaciente()
@@ -109,14 +112,16 @@ public class Controlador
         }
         PedirPrioridadOZona vtn = new PedirPrioridadOZona();
         vtn.getJlbTexto().setText("Elija la Prioridad a mover: ");
+        vtn.getjComboBox().insertItemAt("0", 0);
+        vtn.getjComboBox().setSelectedIndex(0);
         vtn.setVisible(true);
         vtn.getBtnAceptarPrioridad().addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                int prioridad = vtn.getjComboBox().getSelectedIndex() + 1;
-                if (prioridad == 0)
+                int prioridad = vtn.getjComboBox().getSelectedIndex();
+                if (prioridad == -1)
                 {
                     Mensajes.error(vtnPrincipal, "Debe seleccionar una prioridad");
                 } else
@@ -125,7 +130,7 @@ public class Controlador
                     {
                         clinica.moverPacientes(String.valueOf(prioridad));
                         ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
-                        Mensajes.exito(vtnPrincipal,"Pacientes trasladados");
+                        Mensajes.exito(vtnPrincipal, "Pacientes trasladados");
                         mostrarTodosLosPacientes();
                         vtn.dispose();
                     } else
@@ -200,31 +205,92 @@ public class Controlador
             }
             PedirPrioridadOZona vtn = new PedirPrioridadOZona();
             vtn.getJlbTexto().setText("Elija la prioridad a ordenar: ");
+            vtn.getjComboBox().insertItemAt("0", 0);
+            vtn.getjComboBox().setSelectedIndex(0);
+
             vtn.setVisible(true);
-            vtn.getBtnAceptarPrioridad().addActionListener(new ActionListener()
+            vtn.getBtnAceptarPrioridad().addActionListener((ActionEvent e1) ->
             {
-                @Override
-                public void actionPerformed(ActionEvent e)
+                int prioridad = vtn.getjComboBox().getSelectedIndex();
+                if (prioridad == -1)
                 {
-                    int prioridad = vtn.getjComboBox().getSelectedIndex() + 1;
-                    if (prioridad == 0)
+                    Mensajes.error(vtnPrincipal, "Debe seleccionar una prioridad");
+                } else
+                {
+                    if (clinica.getPrioridades().buscarNodoPorEtiqueta(String.valueOf(prioridad)) != null)
                     {
-                        Mensajes.error(vtnPrincipal, "Debe seleccionar una prioridad");
+                        clinica.ordenarPorZonaDePrioridad(String.valueOf(prioridad));
+                        Mensajes.exito(vtnPrincipal, "Elementos ordenados");
+                        vtn.dispose();
+                        mostrarTodosLosPacientes();
+                        ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
                     } else
                     {
-                        if (clinica.getPrioridades().buscarNodoPorEtiqueta(String.valueOf(prioridad)) != null)
-                        {
-                            clinica.ordenarPorZonaDePrioridad(String.valueOf(prioridad));
-                            Mensajes.exito(vtnPrincipal, "Elementos ordenados");
-                            vtn.dispose();
-                            mostrarTodosLosPacientes();
-                            ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
-                        } else
-                        {
-                            Mensajes.error(vtnPrincipal, "No existe esa prioridad");
-                        }
+                        Mensajes.error(vtnPrincipal, "No existe esa prioridad");
                     }
                 }
+            });
+        });
+    }
+
+    public void excepcionPacientes()
+    {
+        vtnPrincipal.getBtnExcepcionPacientes().addActionListener((e) ->
+        {
+            if (validaListaPrioridades() == false)
+            {
+                return;
+            }
+            PedirPrioridadOZona vtn = new PedirPrioridadOZona();
+            vtn.getJlbTexto().setText("Elija la prioridad: ");
+            vtn.setVisible(true);
+            vtn.getBtnAceptarPrioridad().addActionListener((ev) ->
+            {
+                int prioridad = vtn.getjComboBox().getSelectedIndex()+1;
+                if (prioridad == 0)
+                {
+                    Mensajes.error(vtnPrincipal, "Debe seleccionar una prioridad");
+                } else
+                {
+                    Nodo<ColaDinamica> nodoPrioridad = clinica.getPrioridades().buscarNodoPorEtiqueta(String.valueOf(prioridad));
+                    if (nodoPrioridad != null)
+                    {
+                        vtn.dispose();
+                        PedirPrioridadOZona vtnZona = new PedirPrioridadOZona();
+                        vtnZona.setTitle("Prioridad elegida " + nodoPrioridad.getEtiqueta());
+                        vtnZona.getJlbTexto().setText("Elija la zona: ");
+                        vtnZona.setVisible(true);
+                        vtnZona.getBtnAceptarPrioridad().addActionListener((ev2) ->
+                        {
+                            int zona = vtnZona.getjComboBox().getSelectedIndex()+1;
+                            if (zona == 0)
+                            {
+                                Mensajes.error(vtnPrincipal, "Debe seleccionar una zona");
+                            } else
+                            {
+                                ColaDinamica colaPacientesExcepcion = clinica.obtenerColaDeZona(nodoPrioridad.getObj(), zona);
+                                clinica.eliminarPrioridadSiNoTienePacientes(nodoPrioridad);
+                                if (colaPacientesExcepcion != null && colaPacientesExcepcion.getAtras() != null)
+                                {
+                                    clinica.mandarAPrioridadCero(colaPacientesExcepcion);
+                                    Mensajes.exito(vtnPrincipal, "Pacientes mandados a prioridad cero");
+                                    vtnZona.dispose();
+                                    mostrarTodosLosPacientes();
+                                    ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
+
+                                } else
+                                {
+                                    Mensajes.error(vtn, "No hay pacientes de esa prioridad y zona");
+                                }
+                            }
+
+                        });
+                    } else
+                    {
+                        Mensajes.error(vtnPrincipal, "No existe esa prioridad");
+                    }
+                }
+
             });
         });
 

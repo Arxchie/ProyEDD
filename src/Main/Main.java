@@ -8,6 +8,7 @@ import Archivos.ManipulacionArchivos;
 import Controlador.Controlador;
 import Estructuras.ListaCircularSL;
 import Modelo.Clinica;
+import Modelo.Muestra;
 import Vista.VentanaPrincipal;
 
 /**

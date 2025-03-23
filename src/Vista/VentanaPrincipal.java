@@ -8,7 +8,7 @@ import Estructuras.ColaDinamica;
 import Estructuras.ListaCircularSL;
 import Estructuras.Nodo;
 import Modelo.Paciente;
-import Modelo.VistaPacientes;
+
 import ValidacionesExtra.ValidacionesExtra;
 import cjb.ci.CtrlInterfaz;
 import cjb.ci.Mensajes;
@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author HP
  */
-public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacientes
+public class VentanaPrincipal extends javax.swing.JFrame 
 {
 
     /**
@@ -526,7 +526,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
     {//GEN-HEADEREND:event_btnMoverPacienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnMoverPacienteActionPerformed
-    @Override
+  
     public void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL pacientes)
     {
         if (pacientes == null)
@@ -560,7 +560,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
             Mensajes.error(this, "La cola no existe");
             return;
         }
-        if (colaPacientes.getAtras() == null)
+        if (colaPacientes.getAtras() == null || colaPacientes.getFrente() == null)
         {
             Mensajes.error(this, "La cola no tiene pacientes");
             return;

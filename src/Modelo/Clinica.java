@@ -158,7 +158,10 @@ public class Clinica
             {
                 while (cola.getAtras() != null)
                 {
-                    colaPacientesPrioridadCero.inserta(cola.elimina());
+                    
+                    Nodo<Paciente> nodoPaciente=cola.elimina();
+                    nodoPaciente.getObj().setPrioridad(0);
+                    colaPacientesPrioridadCero.inserta(nodoPaciente);
                 }
             }
 
@@ -227,7 +230,7 @@ public class Clinica
         return arregloDinamico.getArr();
     }
 
-    private void eliminarPrioridadSiNoTienePacientes(Nodo<ColaDinamica> prioridad)
+    public  void eliminarPrioridadSiNoTienePacientes(Nodo<ColaDinamica> prioridad)
     {
         if (prioridad == null)
         {
@@ -366,4 +369,5 @@ public class Clinica
         }
         return new Nodo<>(paciente, String.valueOf(paciente.getPrioridad()));
     }
+
 }
