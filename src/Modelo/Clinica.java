@@ -2,7 +2,6 @@ package Modelo;
 
 import Archivos.ManipulacionArchivos;
 import Estructuras.*;
-import java.io.Serializable;
 
 /**
  * Clase que representa una clínica con manejo de colaDinamicaPacientes por
@@ -38,28 +37,103 @@ public class Clinica
 
     public static void main(String[] args)
     {
-        Clinica clinica = new Clinica();
-       
-        clinica.setPrioridades((ListaCircularSL) ManipulacionArchivos.carga(null, "Datos.dat"));
-        if (clinica.getPrioridades() == null)
-        {
-            clinica.setPrioridades(new ListaCircularSL());
-        }
-        Paciente paciente1 = new Paciente(1234, "José", 1, 3);
-        clinica.recepcionPaciente(paciente1);
-
-//        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+//        Clinica clinica = new Clinica();
 //
-//        Nodo prioridadBeneficiada2 = clinica.getPrioridades().buscarNodoPorEtiqueta("2");
-//        if (prioridadBeneficiada2 != null)
+//        clinica.setPrioridades((ListaCircularSL) ManipulacionArchivos.carga(null, "Datos.dat"));
+//        if (clinica.getPrioridades() == null)
 //        {
-//            ColaDinamica colaZonaN = clinica.obtenerColaDeZona((ColaDinamica) prioridadBeneficiada2.getObj(), 6);
-//            clinica.mandarAPrioridadCero(colaZonaN);
-//            clinica.eliminarPrioridadSiNoTienePacientes(prioridadBeneficiada2);
-//
+//            clinica.setPrioridades(new ListaCircularSL());
 //        }
-      //  Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
-        ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
+//        Paciente paciente1 = new Paciente(1234, "José", 1, 3);
+//        clinica.recepcionPaciente(paciente1);
+//
+////        Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+////
+////        Nodo prioridadBeneficiada2 = clinica.getPrioridades().buscarNodoPorEtiqueta("2");
+////        if (prioridadBeneficiada2 != null)
+////        {
+////            ColaDinamica colaZonaN = clinica.obtenerColaDeZona((ColaDinamica) prioridadBeneficiada2.getObj(), 6);
+////            clinica.mandarAPrioridadCero(colaZonaN);
+////            clinica.eliminarPrioridadSiNoTienePacientes(prioridadBeneficiada2);
+////
+////        }
+//        //  Muestra.muestraPacientesDeCadaProridad(clinica.getPrioridades());
+//        ManipulacionArchivos.guarda(null, clinica.getPrioridades(), "Datos.dat");
+
+    }
+
+    public void recepcionPaciente(Paciente paciente)
+    {
+        if (prioridades == null)
+        {
+            System.out.println("Error: Prioridades es null");
+            return;
+        }
+        if (paciente == null)
+        {
+            System.out.println("Error: Paciente inválido.");
+            return;
+        }
+        final String PRIORIDAD_DEL_PACIENTE = String.valueOf(paciente.getPrioridad());
+        Nodo prioridad = obtenerOCrearPrioridad(PRIORIDAD_DEL_PACIENTE);
+        if (prioridad != null)
+        {
+            insertarPacienteEnPrioridad(prioridad, paciente);
+            System.out.println("Paciente agregado correctamente.");
+        } else
+        {
+            System.out.println("No se pudo obtener la prioridad");
+        }
+    }
+
+    public Paciente atenderPaciente()
+    {
+        Nodo siguietePrioridad = obtenerSiguientePrioridadAAtender();
+        ColaDinamica colaPacientes = obtenerColaPacientesDePrioridad(siguietePrioridad);
+        Paciente pacienteAAtender = obtenerSiguientePacienteDeCola(colaPacientes);
+        eliminarPrioridadSiNoTienePacientes(siguietePrioridad);
+        return pacienteAAtender;
+    }
+
+    public Nodo moverPacientes(String prioridad)
+    {
+        if (prioridades != null && prioridades.getR() != null)
+        {
+            return prioridades.elimina(prioridad);
+        }
+        System.out.println("No se pudo eliminar la prioridad dado que no existe");
+        return null;
+
+    }
+
+    public void ordenarPorZonaDePrioridad(String prioridad)
+    {
+        if (prioridad == null)
+        {
+            System.out.println("la pioridad no puede ser null");
+            return;
+        }
+        Nodo<ColaDinamica> nodoPrioridad = prioridades.buscarNodoPorEtiqueta(prioridad);
+        if (nodoPrioridad != null)
+        {
+            Paciente[] arrPacientes = convertirColaAArreglo(nodoPrioridad.getObj());
+            if (arrPacientes != null)
+            {
+                final int CANTIDAD_DE_PACIENTES = arrPacientes.length;
+                Cola<Paciente> colaOrdenada = ColaPrioridades.ordenaCola(new Cola(arrPacientes, CANTIDAD_DE_PACIENTES - 1),
+                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]),
+                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]));
+                if (colaOrdenada != null)
+                {
+                    ColaDinamica colaDinamicaPacientesOrdenada = convertirColaAColaDinamica(colaOrdenada);
+                    if (colaDinamicaPacientesOrdenada != null)
+                    {
+                        nodoPrioridad.setObj(colaDinamicaPacientesOrdenada);
+                    }
+
+                }
+            }
+        }
 
     }
 
@@ -123,38 +197,7 @@ public class Clinica
         return colaDeZona;
     }
 
-    public void ordenarPorZonaDePrioridad(String prioridad)
-    {
-        if (prioridad == null)
-        {
-            System.out.println("la pioridad no puede ser null");
-            return;
-        }
-        Nodo<ColaDinamica> nodoPrioridad = prioridades.buscarNodoPorEtiqueta(prioridad);
-        if (nodoPrioridad != null)
-        {
-            Paciente[] arrPacientes = convertirColaAArreglo(nodoPrioridad.getObj());
-            if (arrPacientes != null)
-            {
-                final int CANTIDAD_DE_PACIENTES = arrPacientes.length;
-                Cola<Paciente> colaOrdenada = ColaPrioridades.ordenaCola(new Cola(arrPacientes, CANTIDAD_DE_PACIENTES - 1),
-                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]),
-                        new Pila(new Paciente[CANTIDAD_DE_PACIENTES]));
-                if (colaOrdenada != null)
-                {
-                    ColaDinamica colaDinamicaPacientesOrdenada = convertirColaAColaDinamica(colaOrdenada);
-                    if (colaDinamicaPacientesOrdenada != null)
-                    {
-                        nodoPrioridad.setObj(colaDinamicaPacientesOrdenada);
-                    }
-
-                }
-            }
-        }
-
-    }
-
-    public ColaDinamica convertirColaAColaDinamica(Cola<Paciente> colaEstatica)
+    private ColaDinamica convertirColaAColaDinamica(Cola<Paciente> colaEstatica)
     {
         ColaDinamica colaDinamica = new ColaDinamica();
         if (colaEstatica == null)
@@ -169,7 +212,7 @@ public class Clinica
         return colaDinamica;
     }
 
-    public Paciente[] convertirColaAArreglo(ColaDinamica cola)
+    private Paciente[] convertirColaAArreglo(ColaDinamica cola)
     {
         if (cola == null)
         {
@@ -184,27 +227,7 @@ public class Clinica
         return arregloDinamico.getArr();
     }
 
-    public Nodo moverPacientes(String prioridad)
-    {
-        if (prioridades != null && prioridades.getR() != null)
-        {
-            return prioridades.elimina(prioridad);
-        }
-        System.out.println("No se pudo eliminar la prioridad dado que no existe");
-        return null;
-
-    }
-
-    public Paciente atenderPaciente()
-    {
-        Nodo siguietePrioridad = obtenerSiguientePrioridadAAtender();
-        ColaDinamica colaPacientes = obtenerColaPacientesDePrioridad(siguietePrioridad);
-        Paciente pacienteAAtender = obtenerSiguientePacienteDeCola(colaPacientes);
-        eliminarPrioridadSiNoTienePacientes(siguietePrioridad);
-        return pacienteAAtender;
-    }
-
-    public void eliminarPrioridadSiNoTienePacientes(Nodo<ColaDinamica> prioridad)
+    private void eliminarPrioridadSiNoTienePacientes(Nodo<ColaDinamica> prioridad)
     {
         if (prioridad == null)
         {
@@ -218,7 +241,7 @@ public class Clinica
         }
     }
 
-    public Nodo obtenerSiguientePrioridadAAtender()
+    private Nodo obtenerSiguientePrioridadAAtender()
     {
         if (prioridades != null && prioridades.getR() != null)
         {
@@ -228,7 +251,7 @@ public class Clinica
 
     }
 
-    public ColaDinamica obtenerColaPacientesDePrioridad(Nodo<ColaDinamica> prioridad)
+    private ColaDinamica obtenerColaPacientesDePrioridad(Nodo<ColaDinamica> prioridad)
     {
         if (prioridad != null)
         {
@@ -237,7 +260,7 @@ public class Clinica
         return null;
     }
 
-    public Paciente obtenerSiguientePacienteDeCola(ColaDinamica colaPacientes)
+    private Paciente obtenerSiguientePacienteDeCola(ColaDinamica colaPacientes)
     {
         if (colaPacientes != null)
         {
@@ -251,32 +274,7 @@ public class Clinica
         return null;
     }
 
-    public void recepcionPaciente(Paciente paciente)
-    {
-        if (prioridades == null)
-        {
-            System.out.println("Error: Prioridades es null");
-            return;
-        }
-        if (paciente == null)
-        {
-            System.out.println("Error: Paciente inválido.");
-            return;
-        }
-        final String PRIORIDAD_DEL_PACIENTE = String.valueOf(paciente.getPrioridad());
-        Nodo prioridad = obtenerOCrearPrioridad(PRIORIDAD_DEL_PACIENTE);
-        if (prioridad != null)
-        {
-            insertarPacienteEnPrioridad(prioridad, paciente);
-            System.out.println("Paciente agregado correctamente.");
-        } else
-        {
-            System.out.println("No se pudo obtener la prioridad");
-        }
-
-    }
-
-    public Nodo obtenerOCrearPrioridad(String prioridad)
+    private Nodo obtenerOCrearPrioridad(String prioridad)
     {
         if (prioridades == null)
         {
@@ -301,7 +299,7 @@ public class Clinica
         return null;
     }
 
-    public void insertarPacienteEnPrioridad(Nodo prioridad, Paciente paciente)
+    private void insertarPacienteEnPrioridad(Nodo prioridad, Paciente paciente)
     {
         if (prioridad != null && paciente != null)
         {
@@ -312,7 +310,7 @@ public class Clinica
         }
     }
 
-    public Nodo crearPrioridad(String prioridad)
+    private Nodo crearPrioridad(String prioridad)
     {
         if (prioridad == null || prioridad.trim().isEmpty())
         {
@@ -322,7 +320,7 @@ public class Clinica
         return new Nodo<>(colaPacientes, prioridad);
     }
 
-    public void agregarPrioridad(Nodo nuevaPrioridad)
+    private void agregarPrioridad(Nodo nuevaPrioridad)
     {
         if (prioridades == null)
         {
@@ -359,7 +357,7 @@ public class Clinica
         }
     }
 
-    public Nodo crearNodoPaciente(Paciente paciente)
+    private Nodo crearNodoPaciente(Paciente paciente)
     {
         if (paciente == null)
         {

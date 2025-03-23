@@ -13,10 +13,13 @@ import ValidacionesExtra.ValidacionesExtra;
 import cjb.ci.CtrlInterfaz;
 import cjb.ci.Mensajes;
 import cjb.ci.Validaciones;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,6 +38,26 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
         initComponents();
         CtrlInterfaz.cambia(jtfNumeroPaciente);
         jtbTablaPacientes.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+    }
+
+    public JTable getJtbTablaPacientes()
+    {
+        return jtbTablaPacientes;
+    }
+
+    public void setJtbTablaPacientes(JTable jtbTablaPacientes)
+    {
+        this.jtbTablaPacientes = jtbTablaPacientes;
+    }
+
+    public JTabbedPane getJtpRegistrarPaciente()
+    {
+        return jtpRegistrarPaciente;
+    }
+
+    public void setJtpRegistrarPaciente(JTabbedPane jtpRegistrarPaciente)
+    {
+        this.jtpRegistrarPaciente = jtpRegistrarPaciente;
     }
 
     public JButton getBtnAtenderPaciente()
@@ -158,6 +181,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
         jtbTablaPacientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Clinica ");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -183,15 +207,17 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
                 jtfNombrePacienteKeyTyped(evt);
             }
         });
-        jPanel1.add(jtfNombrePaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 251, 204, -1));
+        jPanel1.add(jtfNombrePaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, 204, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Nombre ");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 220, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Numero");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 90, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
 
         jtfNumeroPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtfNumeroPaciente.addActionListener(new java.awt.event.ActionListener()
@@ -215,16 +241,19 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
         jPanel1.add(jtfNumeroPaciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 204, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Zona");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(237, 285, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Prioridad");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("DATOS DEL PACIENTE");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, -1));
 
         btnRegistrarPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRegistrarPaciente.setText("Registrar");
@@ -266,6 +295,13 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
 
         btnAtenderPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAtenderPaciente.setText("Atender Paciente");
+        btnAtenderPaciente.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                btnAtenderPacienteFocusGained(evt);
+            }
+        });
         btnAtenderPaciente.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -284,6 +320,13 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
 
         btnMoverPaciente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnMoverPaciente.setText("Mover Pacientes");
+        btnMoverPaciente.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btnMoverPacienteActionPerformed(evt);
+            }
+        });
         btnMoverPaciente.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
@@ -327,7 +370,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
                 btnExcepcionPacientesKeyPressed(evt);
             }
         });
-        jPanel2.add(btnExcepcionPacientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(368, 30, 152, -1));
+        jPanel2.add(btnExcepcionPacientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 160, -1));
 
         jtbTablaPacientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtbTablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -390,7 +433,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
         // TODO add your handling code here:
 
         ValidacionesExtra.validaCopyPaste(evt);
-        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jcbPrioridadPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, jcbPrioridadPaciente);
 
 
     }//GEN-LAST:event_jtfNumeroPacienteKeyPressed
@@ -420,35 +463,24 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
     {//GEN-HEADEREND:event_jtfNombrePacienteKeyPressed
         // TODO add your handling code here:
         ValidacionesExtra.validaCopyPaste(evt);
-        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jcbZonaPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, jcbZonaPaciente);
     }//GEN-LAST:event_jtfNombrePacienteKeyPressed
 
     private void btnRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRegistrarPacienteActionPerformed
     {//GEN-HEADEREND:event_btnRegistrarPacienteActionPerformed
 
-        if (jtfNombrePaciente.getText().trim().length() == 0 || jtfNumeroPaciente.getText().trim().length() == 0)
-        {
-            Mensajes.error(this, "Debe llenar todos los campos");
-            CtrlInterfaz.cambia(jtfNumeroPaciente);
-            return;
-        }
-        Mensajes.exito(this, "Registro exitoso");
-        CtrlInterfaz.limpia(jtfNombrePaciente, jtfNumeroPaciente);
-        jcbPrioridadPaciente.setSelectedIndex(0);
-        jcbZonaPaciente.setSelectedIndex(0);
-        CtrlInterfaz.cambia(jtfNumeroPaciente);
     }//GEN-LAST:event_btnRegistrarPacienteActionPerformed
 
     private void jcbPrioridadPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jcbPrioridadPacienteKeyPressed
     {//GEN-HEADEREND:event_jcbPrioridadPacienteKeyPressed
         // TODO add your handling code here:
-        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, jtfNombrePaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, jtfNombrePaciente);
     }//GEN-LAST:event_jcbPrioridadPacienteKeyPressed
 
     private void jcbZonaPacienteKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jcbZonaPacienteKeyPressed
     {//GEN-HEADEREND:event_jcbZonaPacienteKeyPressed
         // TODO add your handling code here:
-        ValidacionesExtra.cambia(KeyEvent.VK_ENTER,evt, btnRegistrarPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, btnRegistrarPaciente);
     }//GEN-LAST:event_jcbZonaPacienteKeyPressed
 
     private void jtpRegistrarPacienteFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jtpRegistrarPacienteFocusGained
@@ -481,9 +513,19 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
     private void btnOrdenarPorZonaKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_btnOrdenarPorZonaKeyPressed
     {//GEN-HEADEREND:event_btnOrdenarPorZonaKeyPressed
         // TODO add your handling code here:
-        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt,btnAtenderPaciente);
+        ValidacionesExtra.cambia(KeyEvent.VK_RIGHT, evt, btnAtenderPaciente);
         ValidacionesExtra.cambia(KeyEvent.VK_LEFT, evt, btnExcepcionPacientes);
     }//GEN-LAST:event_btnOrdenarPorZonaKeyPressed
+
+    private void btnAtenderPacienteFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_btnAtenderPacienteFocusGained
+    {//GEN-HEADEREND:event_btnAtenderPacienteFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAtenderPacienteFocusGained
+
+    private void btnMoverPacienteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnMoverPacienteActionPerformed
+    {//GEN-HEADEREND:event_btnMoverPacienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMoverPacienteActionPerformed
     @Override
     public void mostrarTodosLosPacientesPorPrioridad(ListaCircularSL pacientes)
     {
@@ -494,9 +536,12 @@ public class VentanaPrincipal extends javax.swing.JFrame implements VistaPacient
         }
         if (pacientes.getR() == null)
         {
-            Mensajes.error(this, "La lista esta vacia");
+            DefaultTableModel model = (DefaultTableModel) jtbTablaPacientes.getModel();
+            model.setRowCount(0); // Esto borra todas las filas
             return;
         }
+        DefaultTableModel model = (DefaultTableModel) jtbTablaPacientes.getModel();
+        model.setRowCount(0); // Esto borra todas las filas
         Nodo<ColaDinamica> aux = pacientes.getR().getSiguiente();
         do
         {

@@ -6,6 +6,7 @@ package Vista;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 /**
@@ -33,23 +34,23 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jLabel1 = new javax.swing.JLabel();
-        jcbPrioridadPaciente2 = new javax.swing.JComboBox<>();
+        jlbTexto = new javax.swing.JLabel();
+        jComboBox = new javax.swing.JComboBox<>();
         btnAceptarPrioridad = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("TEXTO:");
+        jlbTexto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jlbTexto.setText("TEXTO:");
 
-        jcbPrioridadPaciente2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jcbPrioridadPaciente2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-        jcbPrioridadPaciente2.addKeyListener(new java.awt.event.KeyAdapter()
+        jComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jComboBox.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
             {
-                jcbPrioridadPaciente2KeyPressed(evt);
+                jComboBoxKeyPressed(evt);
             }
         });
 
@@ -69,9 +70,9 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addComponent(jLabel1)
+                .addComponent(jlbTexto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jcbPrioridadPaciente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56))
             .addGroup(layout.createSequentialGroup()
                 .addGap(139, 139, 139)
@@ -83,8 +84,8 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jcbPrioridadPaciente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlbTexto)
+                    .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addComponent(btnAceptarPrioridad)
                 .addGap(24, 24, 24))
@@ -104,21 +105,31 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
         this.btnAceptarPrioridad = btnAceptarPrioridad;
     }
 
-    public JLabel getjLabel1()
+    public JLabel getJlbTexto()
     {
-        return jLabel1;
+        return jlbTexto;
     }
 
-    public void setjLabel1(JLabel jLabel1)
+    public JComboBox<String> getjComboBox()
     {
-        this.jLabel1 = jLabel1;
+        return jComboBox;
     }
 
-    private void jcbPrioridadPaciente2KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jcbPrioridadPaciente2KeyPressed
-    {//GEN-HEADEREND:event_jcbPrioridadPaciente2KeyPressed
+    public void setjComboBox(JComboBox<String> jComboBox)
+    {
+        this.jComboBox = jComboBox;
+    }
+
+    public void setJlbTexto(JLabel jLabel1)
+    {
+        this.jlbTexto = jLabel1;
+    }
+
+    private void jComboBoxKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxKeyPressed
+    {//GEN-HEADEREND:event_jComboBoxKeyPressed
         // TODO add your handling code here:
        ValidacionesExtra.ValidacionesExtra.cambia(KeyEvent.VK_ENTER, evt, btnAceptarPrioridad);
-    }//GEN-LAST:event_jcbPrioridadPaciente2KeyPressed
+    }//GEN-LAST:event_jComboBoxKeyPressed
 
     private void btnAceptarPrioridadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAceptarPrioridadActionPerformed
     {//GEN-HEADEREND:event_btnAceptarPrioridadActionPerformed
@@ -173,7 +184,7 @@ public class PedirPrioridadOZona extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptarPrioridad;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JComboBox<String> jcbPrioridadPaciente2;
+    private javax.swing.JComboBox<String> jComboBox;
+    private javax.swing.JLabel jlbTexto;
     // End of variables declaration//GEN-END:variables
 }
